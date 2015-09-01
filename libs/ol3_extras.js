@@ -75,12 +75,12 @@ ol.Map.prototype.getLayerGroupByName = function (name) {
 
 /**
  *
- * Simple  getGeomtryCenter
+ * Simple  getGeometryCenter
  *
  * @param geometry
  * @returns {*[]}
  */
-ol.Map.prototype.getGeomtryCenter = function(geometry) {
+ol.Map.prototype.getGeometryCenter = function(geometry) {
     var extent=geometry.getExtent();
     var x = extent[0] + (extent[2]-extent[0])/2;
     var y = extent[1] + (extent[3]-extent[1])/2;
