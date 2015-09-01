@@ -87,3 +87,19 @@ ol.Map.prototype.getGeomtryCenter = function(geometry) {
     return [x, y];
 }
 
+
+/**
+ *
+ * Useful functions not really appropriate for inclusion in the map object
+ *
+ */
+
+/**
+ * Clean an extent/resoultion array (IE convert any strings to floats)
+ * @param extent
+ * @returns {*[]}
+ */
+cleanArray = function(extent) {
+   for(var i=0;i<extent.length;i++)
+    extent[i]=parseFloat(extent[i]);
+}
