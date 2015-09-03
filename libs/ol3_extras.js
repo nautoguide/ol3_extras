@@ -16,12 +16,12 @@
  * @returns {*[]}
  */
 
-ol.loadingstrategy.bbox = function(extent, resolution) {
-    var buffer=500*resolution;
-    extent[0]-=buffer;
-    extent[1]-=buffer;
-    extent[2]+=buffer;
-    extent[3]+=buffer;
+ol.loadingstrategy.bbox = function (extent, resolution) {
+    var buffer = 500 * resolution;
+    extent[0] -= buffer;
+    extent[1] -= buffer;
+    extent[2] += buffer;
+    extent[3] += buffer;
     return [extent];
 };
 
@@ -38,7 +38,7 @@ ol.loadingstrategy.bbox = function(extent, resolution) {
  */
 
 ol.Map.prototype.getLayer = function (name) {
-    var self=this;
+    var self = this;
     var groups = self.getLayers().getArray();
     for (var g = 0; g < groups.length; g++) {
         if (groups[g] instanceof ol.layer.Group) {
@@ -58,15 +58,24 @@ ol.Map.prototype.getLayer = function (name) {
     return null;
 }
 
+/**
+ * getLayerGroupByName
+ *
+ * Get a layer group(s) by name and return as an array of all layers spanning the
+ * groups
+ *
+ * @param name
+ * @returns {Array}
+ */
 ol.Map.prototype.getLayerGroupByName = function (name) {
-    var self=this;
-    var names=name.split(",");
+    var self = this;
+    var names = name.split(",");
     var groups = self.getLayers().getArray();
-    var ret_groups=[];
+    var ret_groups = [];
     for (var g = 0; g < groups.length; g++) {
-        if (groups[g] instanceof ol.layer.Group && names.indexOf(groups[g].get('name'))>-1) {
-            var layers=groups[g].getLayers().getArray();
-            for(var i=0;i<layers.length;i++)
+        if (groups[g] instanceof ol.layer.Group && names.indexOf(groups[g].get('name')) > -1) {
+            var layers = groups[g].getLayers().getArray();
+            for (var i = 0; i < layers.length; i++)
                 ret_groups.push(layers[i]);
         }
     }
@@ -80,10 +89,10 @@ ol.Map.prototype.getLayerGroupByName = function (name) {
  * @param geometry
  * @returns {*[]}
  */
-ol.Map.prototype.getGeometryCenter = function(geometry) {
-    var extent=geometry.getExtent();
-    var x = extent[0] + (extent[2]-extent[0])/2;
-    var y = extent[1] + (extent[3]-extent[1])/2;
+ol.Map.prototype.getGeometryCenter = function (geometry) {
+    var extent = geometry.getExtent();
+    var x = extent[0] + (extent[2] - extent[0]) / 2;
+    var y = extent[1] + (extent[3] - extent[1]) / 2;
     return [x, y];
 }
 
@@ -99,7 +108,58 @@ ol.Map.prototype.getGeometryCenter = function(geometry) {
  * @param extent
  * @returns {*[]}
  */
-cleanArray = function(extent) {
-   for(var i=0;i<extent.length;i++)
-    extent[i]=parseFloat(extent[i]);
+cleanArray = function (extent) {
+    for (var i = 0; i < extent.length; i++)
+        extent[i] = parseFloat(extent[i]);
+}
+
+/**
+ *  Easing functions
+ *
+ *  This have been mostly taken direct from the Ol3 examples or from various web sources.
+ *
+ *  Esentially a collection of
+ */
+
+/**
+ * Easing function for elastic animation
+ *
+ * // from https://github.com/DmitryBaranovskiy/raphael
+
+ * @param t
+ * @returns {number}
+ */
+function easing_elastic(t) {
+    return Math.pow(2, -10 * t) * Math.sin((t - 0.075) * (2 * Math.PI) / 0.3) + 1;
+}
+
+
+/**
+ *
+ * Easing function for a boucne effect
+ *
+ * from https://github.com/DmitryBaranovskiy/raphael
+ *
+ * @param t
+ * @returns {*}
+ */
+function bounce(t) {
+    var s = 7.5625, p = 2.75, l;
+    if (t < (1 / p)) {
+        l = s * t * t;
+    } else {
+        if (t < (2 / p)) {
+            t -= (1.5 / p);
+            l = s * t * t + 0.75;
+        } else {
+            if (t < (2.5 / p)) {
+                t -= (2.25 / p);
+                l = s * t * t + 0.9375;
+            } else {
+                t -= (2.625 / p);
+                l = s * t * t + 0.984375;
+            }
+        }
+    }
+    return l;
 }
