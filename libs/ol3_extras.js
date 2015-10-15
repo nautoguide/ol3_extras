@@ -96,6 +96,29 @@ ol.Map.prototype.getGeometryCenter = function (geometry) {
     return [x, y];
 }
 
+/**
+ *
+ * Simple  getFeatureById
+ *
+ * @param feature_id, bindgroup
+ * @returns {*[]}
+ */
+ol.Map.prototype.getFeatureById = function (feature_id, bindgroup) {
+    var self = this;
+    var layers = self.getLayerGroupByName(bindgroup);
+    for (var l = 0; l < layers.length; l++) {
+        if (layers[l].type == 'wfs') {
+            var source = layers[l].getSource();
+            var features = source.getFeatures();
+            for (var f = 0; f < features.length; f++) {
+                if (features[f].attributes.feature_id == feature_id)
+                    return features[f];
+            }
+        }
+    }
+    return false;
+
+}
 
 /**
  *
