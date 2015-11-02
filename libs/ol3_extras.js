@@ -105,7 +105,13 @@ ol.Map.prototype.getGeometryCenter = function (geometry) {
  */
 ol.Map.prototype.getFeatureById = function (feature_id, bindgroup) {
     var self = this;
+    /**
+     * Search for layer groups first. If that fails we fall over the individual layer name lookups
+     * @type {Array}
+     */
     var layers = self.getLayerGroupByName(bindgroup);
+    if(layers.length==0)
+        layers[0]=self.getLayer(bindgroup);
     for (var l = 0; l < layers.length; l++) {
         if (layers[l].type == 'wfs') {
             var source = layers[l].getSource();
