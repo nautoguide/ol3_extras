@@ -25,6 +25,25 @@ ol.loadingstrategy.bbox = function (extent, resolution) {
     return [extent];
 };
 
+ol.loadingstrategy.bbox_27700 = function (extent, resolution) {
+    var buffer = 500 * resolution;
+    extent[0] -= buffer;
+    extent[1] -= buffer;
+    extent[2] += buffer;
+    extent[3] += buffer;
+    return [extent];
+};
+
+ol.loadingstrategy.bbox_3857 = function (extent, resolution) {
+    var buffer = 10 * resolution;
+    extent[0] -= buffer;
+    extent[1] -= buffer;
+    extent[2] += buffer;
+    extent[3] += buffer;
+    console.log(extent);
+    return [extent];
+};
+
 
 /**
  *  Ol3 doesn't have a getLayer by name function as its assumed you
